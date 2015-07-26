@@ -53,19 +53,19 @@ endif
 しかし，既存のファイルの実行権限を勝手に変更してしまうのもどうかと思ったので（例えshebang付きであっても），「新規ファイル作成時のみ」そのパーミッションを変更するようにした．
 仕組みとしては以下のようになる．
 
-1. 存在しないファイルの編集を始めたとき（```BufNewFile```が発火したとき）に，バッファローカルでバッファ全体をファイルに書き込んだ後に発火するイベント（```BufWritePost```）に対し，パーミッションを変更する関数を呼び出すアクションを設定する
-2. パーミッションを変更する関数では，最初に```BufWritePost```に対して設定された自動コマンドを消去し，パーミッションを変更する外部コマンドを```system()```を通じて呼び出す．
+1. 存在しないファイルの編集を始めたとき（ ```BufNewFile``` が発火したとき）に，バッファローカルでバッファ全体をファイルに書き込んだ後に発火するイベント（ ```BufWritePost``` ）に対し，パーミッションを変更する関数を呼び出すアクションを設定する
+2. パーミッションを変更する関数では，最初に ```BufWritePost``` に対して設定された自動コマンドを消去し，パーミッションを変更する外部コマンドを ```system()``` を通じて呼び出す．
 
-```BufNewFile```時に```BufWritePost```の自動コマンドを設定しているのがポイントだ．
+```BufNewFile``` 時に ```BufWritePost``` の自動コマンドを設定しているのがポイントだ．
 こうすることで，新規ファイルの保存時のみパーミッションを変更することができる．
 
-ただし，```writefile()```等でのファイルのパーミッションの変更には対応していない．
+ただし， ```writefile()``` 等でのファイルのパーミッションの変更には対応していない．
 これらは，個別にスクリプト中やコマンドを実行して対応すべきだろう．
-（[vital.vim](https://github.com/vim-jp/vital.vim)の```:Vitalize```をWindowsのVimでやると，実行権限が付いてしまうので，Cygwinのvimで```:Vitalize```しよう）
+（[vital.vim](https://github.com/vim-jp/vital.vim)の ```:Vitalize``` をWindowsのVimでやると，実行権限が付いてしまうので，Cygwinのvimで ```:Vitalize``` しよう）
 
 
-```s:system()```については，組み込み関数の```system()```でも構わないが，Windowsだと一瞬コマンドプロンプトのウインドウが開くのが気になるので，[vimproc.vim](https://github.com/Shougo/vimproc.vim)がインストールされているならば，その```system()```を用いることにする．
-```vimproc#system()```と```vimproc#cmd#system()```の違いについては，vimproc.vimのソースコードを参照するか，以下を参照して欲しい．
+```s:system()``` については，組み込み関数の ```system()``` でも構わないが，Windowsだと一瞬コマンドプロンプトのウインドウが開くのが気になるので，[vimproc.vim](https://github.com/Shougo/vimproc.vim)がインストールされているならば，その ```system()``` を用いることにする．
+```vimproc#system()``` と ```vimproc#cmd#system()``` の違いについては，vimproc.vimのソースコードを参照するか，以下を参照して欲しい．
 
 - [Windows の Vim で system() を高速化してみた - C++でゲームプログラミング](http://d.hatena.ne.jp/osyo-manga/20130611/1370950114)
 - [vimproc.vim に vimproc#cmd#system が実装された - C++でゲームプログラミング](http://d.hatena.ne.jp/osyo-manga/20130616/1371388900)

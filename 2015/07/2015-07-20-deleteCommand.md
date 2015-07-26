@@ -3,7 +3,7 @@ Vimで実行に失敗したら，自身を削除するコマンドを定義す�
 
 実行に失敗したら，自身を削除するコマンドを定義する
 
-自作のVimプラグインで，[ctrlp.vim](https://github.com/ctrlpvim/ctrlp.vim)の拡張を作成したとき，```plugin/hoge.vim```にて，
+自作のVimプラグインで，[ctrlp.vim](https://github.com/ctrlpvim/ctrlp.vim)の拡張を作成したとき， ```plugin/hoge.vim``` にて，
 
 ```vim
 command! CtrlPHoge  call ctrlp#init(ctrlp#hoge#id())
@@ -21,11 +21,11 @@ endif
 ```
 
 ただし，この方法には問題がある．
-```ctrlp.vim``` が[neobundle.vim](https://github.com/Shougo/neobundle.vim)で管理されており，Lazy読み込み設定がなされている場合，```runtimepath```から発見することができない．
-かといって，```ctrlp#init()```を呼び出して確認するのは，autoloadの読み込みが発生するので，あまり好ましくない．
+```ctrlp.vim``` が[neobundle.vim](https://github.com/Shougo/neobundle.vim)で管理されており，Lazy読み込み設定がなされている場合， ```runtimepath``` から発見することができない．
+かといって， ```ctrlp#init()``` を呼び出して確認するのは，autoloadの読み込みが発生するので，あまり好ましくない．
 （そもそも，ここまで神経質になる必要は無いのだが）
 
-ということで，最初から```:CtrlPHoge```を定義しないことは諦めて，```:CtrlPHoge```の実行に失敗したら，```:CtrlPHoge```自身を消去しようと思う．
+ということで，最初から ```:CtrlPHoge``` を定義しないことは諦めて， ```:CtrlPHoge``` の実行に失敗したら， ```:CtrlPHoge``` 自身を消去しようと思う．
 
 ```vim
 function! s:ctrlp_hook() abort
@@ -42,11 +42,11 @@ command! CtrlPHoge  call s:ctrlp_hook() | delfunction s:crtlp_hook
 ```
 
 やっていることは単純．
-最初に仮の関数を呼び出すように定義し，```ctrlp#init()```が呼び出せない，すなわちctrlp.vimが利用できないならば，コマンドと仮の関数を消去するだけである．
-逆に，```ctrlp#init()```が呼び出せるならば，コマンドを上書きする．
+最初に仮の関数を呼び出すように定義し， ```ctrlp#init()``` が呼び出せない，すなわちctrlp.vimが利用できないならば，コマンドと仮の関数を消去するだけである．
+逆に， ```ctrlp#init()``` が呼び出せるならば，コマンドを上書きする．
 
-上記コードにおいて，```catch /^Vim\%((\a\+)\)\=:E\%(117\): .\+: ctrlp#init$/```と長ったらしく記述しているが，単純に```catch```で全例外を捕捉しても問題は無いと思う．
-（そもそも，ctrlp.vimが存在しないならば，```ctrlp#hoge#id()```の呼び出しで```g:ctrlp_builtins```が定義されていないというエラーが排出されるので，このエラーキャッチはやや不正確）
+上記コードにおいて， ```catch /^Vim\%((\a\+)\)\=:E\%(117\): .\+: ctrlp#init$/``` と長ったらしく記述しているが，単純に ```catch``` で全例外を捕捉しても問題は無いと思う．
+（そもそも，ctrlp.vimが存在しないならば， ```ctrlp#hoge#id()``` の呼び出しで ```g:ctrlp_builtins``` が定義されていないというエラーが排出されるので，このエラーキャッチはやや不正確）
 
 さて，このような「実行に失敗したら，自身を消去するコマンドを定義する関数」を書いてみた．
 ぶっちゃけ，遊びで作ったこの関数を紹介するために，この記事を書いたのである．
@@ -156,8 +156,8 @@ FooBar
 let tmpfunc = 's:' . (has('cryptv') ? sha256(reltimestr(reltime()))[: 15] : substitute(tempname(), '[\.:/\\]', '_', 'g'))
 ```
 
-これは，```sha256```が利用できる環境ならば```sha256()```を，そうでないならば，```tempname()```の識別子に使用できない文字を```_```に置換して，一時的に利用する関数の名前を作成している．
-ちなみに，```<bang>```等を用いないのであれば，以下のように単純に定義するだけでよい．
+これは， ```sha256``` が利用できる環境ならば ```sha256()``` を，そうでないならば， ```tempname()``` の識別子に使用できない文字を ```_``` に置換して，一時的に利用する関数の名前を作成している．
+ちなみに， ```<bang>``` 等を用いないのであれば，以下のように単純に定義するだけでよい．
 
 ```vim
 " 仮コマンドを定義するが，<bang>等の置換を行わない．<bang>等を用いないコマンドの定義に用いる
